@@ -1,3 +1,45 @@
+:root {
+  /* Apple Color System */
+  --color-label: #1D1D1F;
+  --color-label-secondary: #6E6E73;
+  --color-label-tertiary: #8E8E93;
+  --color-label-quaternary: #C7C7CC;
+  
+  --color-fill: #E5E5E7;
+  --color-fill-secondary: #F2F2F7;
+  --color-fill-tertiary: #F7F7F7;
+  --color-fill-quaternary: #FFFFFF;
+  
+  --color-background: #FFFFFF;
+  --color-background-secondary: #F2F2F7;
+  --color-background-tertiary: #FFFFFF;
+  
+  --color-separator: #D1D1D6;
+  --color-separator-opaque: #C6C6C8;
+  
+  --color-system-blue: #000000;
+  --color-system-red: #FF3B30;
+  --color-system-green: #34C759;
+  --color-system-orange: #FF9500;
+  
+  /* Spacing System */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  
+  /* Border Radius */
+  --radius-small: 6px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-xl: 16px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,10 +49,10 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
   line-height: 1.47059;
-  color: #1D1D1F;
-  background: #FFFFFF;
+  color: var(--color-label);
+  background: var(--color-background);
   min-height: 100vh;
-  padding: 20px;
+  padding: 0;
   font-size: 17px;
   font-weight: 400;
   letter-spacing: -0.022em;
@@ -27,9 +69,9 @@ body {
 .progress-header {
   position: sticky;
   top: 0;
-  background: #FFFFFF;
-  border-bottom: 1px solid #D2D2D7;
-  padding: 16px 32px;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-separator);
+  padding: var(--spacing-4) var(--spacing-8);
   z-index: 100;
 }
 
@@ -37,22 +79,22 @@ body {
   text-align: center;
   font-size: 15px;
   font-weight: 500;
-  color: #6E6E73;
-  margin-bottom: 12px;
+  color: var(--color-label-secondary);
+  margin-bottom: var(--spacing-3);
 }
 
 .progress-bar-main {
-  background: #D2D2D7;
-  border-radius: 4px;
+  background: var(--color-separator);
+  border-radius: var(--radius-small);
   height: 4px;
   overflow: hidden;
 }
 
 .progress-fill-main {
   height: 100%;
-  background: #000000;
+  background: var(--color-system-blue);
   transition: width 0.4s ease-out;
-  border-radius: 4px;
+  border-radius: var(--radius-small);
 }
 
 /* Assessment Card */
@@ -61,33 +103,33 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: var(--spacing-8);
   min-height: calc(100vh - 160px);
 }
 
 .card-content {
   width: 100%;
   max-width: 600px;
-  background: #FFFFFF;
-  border: 1px solid #D2D2D7;
-  border-radius: 16px;
-  padding: 32px;
+  background: var(--color-background);
+  border: 1px solid var(--color-separator);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-8);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .card-title {
   font-size: 28px;
   font-weight: 600;
-  color: #000000;
-  margin-bottom: 8px;
+  color: var(--color-label);
+  margin-bottom: var(--spacing-2);
   letter-spacing: -0.003em;
   text-align: center;
 }
 
 .card-subtitle {
   font-size: 17px;
-  color: #6E6E73;
-  margin-bottom: 32px;
+  color: var(--color-label-secondary);
+  margin-bottom: var(--spacing-8);
   text-align: center;
   line-height: 1.47059;
 }
@@ -145,37 +187,37 @@ label {
 input, select, textarea {
   width: 100%;
   padding: 11px 13px;
-  border: 1px solid #D2D2D7;
-  border-radius: 8px;
+  border: 1px solid var(--color-separator);
+  border-radius: var(--radius-medium);
   font-size: 17px;
   font-weight: 400;
-  color: #1D1D1F;
-  background: #FFFFFF;
+  color: var(--color-label);
+  background: var(--color-background);
   transition: all 0.2s ease-out;
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: #000000;
+  border-color: var(--color-system-blue);
   border-width: 2px;
 }
 
 input:invalid {
-  border-color: #6E6E73;
+  border-color: var(--color-label-secondary);
 }
 
 input:valid {
-  border-color: #D2D2D7;
+  border-color: var(--color-separator);
 }
 
 /* Validation Error Styles */
 .form-field-error {
-  border-color: #FF3B30 !important;
+  border-color: var(--color-system-red) !important;
   border-width: 2px !important;
 }
 
 .form-field-error:focus {
-  border-color: #FF3B30 !important;
+  border-color: var(--color-system-red) !important;
   box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
 }
 
@@ -481,11 +523,11 @@ input:valid {
 }
 
 .nav-btn {
-  background: #000000;
+  background: var(--color-system-blue);
   color: #FFFFFF;
   border: none;
   padding: 11px 22px;
-  border-radius: 8px;
+  border-radius: var(--radius-medium);
   cursor: pointer;
   font-size: 17px;
   font-weight: 500;
@@ -496,19 +538,19 @@ input:valid {
 }
 
 .nav-btn:disabled {
-  background: #D2D2D7;
-  color: #6E6E73;
+  background: var(--color-fill);
+  color: var(--color-label-secondary);
   cursor: not-allowed;
 }
 
 .nav-btn.secondary {
-  background: #FFFFFF;
-  color: #000000;
-  border: 1px solid #000000;
+  background: var(--color-background);
+  color: var(--color-system-blue);
+  border: 1px solid var(--color-system-blue);
 }
 
 .nav-btn.secondary:hover:not(:disabled) {
-  background: #000000;
+  background: var(--color-system-blue);
   color: #FFFFFF;
 }
 
