@@ -2,32 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { assessmentAPI } from '../services/api';
 import { performAllCalculations } from '../utils/calculations';
-import type { AssessmentData, TestResults } from '../types/assessment';
+import type { AssessmentData, TestResults, Assessment } from '../types/assessment';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import './AssessmentReport.css';
 
-interface Client {
-  _id: string;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  dateOfBirth?: string;
-  gender?: string;
-  occupation?: string;
-}
-
-interface Assessment {
-  _id: string;
-  client: Client;
-  practitioner: {
-    firstName: string;
-    lastName: string;
-  };
-  assessmentDate: string;
-  status: string;
-  // Assessment data fields will be populated
-  [key: string]: any;
-}
 
 const AssessmentReport: React.FC = () => {
   const { assessmentId } = useParams<{ assessmentId: string }>();
@@ -48,7 +26,7 @@ const AssessmentReport: React.FC = () => {
     try {
       setIsLoading(true);
       const response = await assessmentAPI.getAssessment(assessmentId!);
-      const assessmentData = response.data.data.assessment;
+      const assessmentData = response.data.assessment;
       
       setAssessment(assessmentData);
       
@@ -107,7 +85,7 @@ const AssessmentReport: React.FC = () => {
   };
 
   const handleEdit = () => {
-    if (assessment && assessment.client) {
+    if (assessment && typeof assessment.client === 'object' && assessment.client._id) {
       navigate(`/dashboard/clients/${assessment.client._id}/assessment/${assessmentId}/edit`);
     }
   };
@@ -167,9 +145,9 @@ const AssessmentReport: React.FC = () => {
           <div className="info-grid">
             <div className="info-row">
               <span className="label">Ad Soyad:</span>
-              <span className="value">{assessment.client.fullName}</span>
+              <span className="value">{typeof assessment.client === 'object' ? assessment.client.fullName : 'Bilinmeyen'}</span>
             </div>
-            {assessment.client.dateOfBirth && (
+            {typeof assessment.client === 'object' && assessment.client.dateOfBirth && (
               <div className="info-row">
                 <span className="label">Doğum Tarihi:</span>
                 <span className="value">
@@ -178,25 +156,25 @@ const AssessmentReport: React.FC = () => {
                 </span>
               </div>
             )}
-            {assessment.client.gender && (
+            {typeof assessment.client === 'object' && assessment.client.gender && (
               <div className="info-row">
                 <span className="label">Cinsiyet:</span>
                 <span className="value">
-                  {assessment.client.gender === 'male' ? 'Erkek' : 
-                   assessment.client.gender === 'female' ? 'Kadın' : 'Diğer'}
+                  {typeof assessment.client === 'object' && assessment.client.gender === 'male' ? 'Erkek' : 
+                   typeof assessment.client === 'object' && assessment.client.gender === 'female' ? 'Kadın' : 'Diğer'}
                 </span>
               </div>
             )}
-            {assessment.client.occupation && (
+            {typeof assessment.client === 'object' && assessment.client.occupation && (
               <div className="info-row">
                 <span className="label">Meslek:</span>
-                <span className="value">{assessment.client.occupation}</span>
+                <span className="value">{typeof assessment.client === 'object' ? assessment.client.occupation : ''}</span>
               </div>
             )}
-            {assessment.client.phone && (
+            {typeof assessment.client === 'object' && assessment.client.phone && (
               <div className="info-row">
                 <span className="label">Telefon:</span>
-                <span className="value">{assessment.client.phone}</span>
+                <span className="value">{typeof assessment.client === 'object' ? assessment.client.phone : ''}</span>
               </div>
             )}
             <div className="info-row">

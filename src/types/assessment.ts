@@ -159,12 +159,29 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
+export interface ClientResponse {
+  success: boolean;
+  data: {
+    client: Client;
+    recentAssessments?: Assessment[];
+  };
+  message?: string;
+}
+
+export interface AssessmentResponse {
+  success: boolean;
+  data: {
+    assessment: Assessment;
+  };
+  message?: string;
+}
+
 export interface Client {
   _id: string;
   fullName: string;
   email?: string;
   phone?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   gender?: 'male' | 'female' | 'other';
   occupation?: string;
   company?: string;
@@ -179,9 +196,13 @@ export interface Client {
     conditions: string[];
     notes: string;
   };
-  createdBy: string;
+  createdBy: string | {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
   isActive: boolean;
-  lastAssessment?: Date;
+  lastAssessment?: string;
   totalAssessments: number;
   createdAt: string;
   updatedAt: string;
@@ -195,7 +216,7 @@ export interface Assessment {
     firstName: string;
     lastName: string;
   };
-  assessmentDate: Date;
+  assessmentDate: string;
   status: 'draft' | 'in_progress' | 'completed' | 'reviewed';
   data: AssessmentData;
   createdAt: string;
@@ -210,6 +231,7 @@ export interface PaginationData {
 }
 
 export interface ClientsResponse {
+  success: boolean;
   data: {
     clients: Client[];
     pagination: PaginationData;
@@ -217,6 +239,7 @@ export interface ClientsResponse {
 }
 
 export interface AssessmentsResponse {
+  success: boolean;
   data: {
     assessments: Assessment[];
     pagination: PaginationData;
@@ -231,6 +254,7 @@ export interface StatsData {
 }
 
 export interface ClientStatsResponse {
+  success: boolean;
   data: {
     stats: StatsData;
     recentClients: Client[];
@@ -238,6 +262,7 @@ export interface ClientStatsResponse {
 }
 
 export interface AssessmentStatsResponse {
+  success: boolean;
   data: {
     stats: StatsData;
     recentAssessments: Assessment[];

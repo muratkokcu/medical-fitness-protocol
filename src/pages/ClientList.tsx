@@ -205,7 +205,7 @@ const ClientList: React.FC = () => {
           <div>
             <div className="name-text">{client.fullName}</div>
             <div className="created-by">
-              Ekleyen: {client.createdBy.firstName} {client.createdBy.lastName}
+              Ekleyen: {typeof client.createdBy === 'object' ? `${client.createdBy.firstName} ${client.createdBy.lastName}` : 'Belirtilmemiş'}
             </div>
           </div>
         </div>

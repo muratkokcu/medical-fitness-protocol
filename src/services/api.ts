@@ -7,7 +7,9 @@ import type {
   AssessmentsResponse, 
   ClientStatsResponse, 
   AssessmentStatsResponse,
-  AssessmentData
+  AssessmentData,
+  ClientResponse,
+  AssessmentResponse
 } from '../types/assessment';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
@@ -75,11 +77,11 @@ export const clientAPI = {
     sortOrder?: string;
   }): Promise<ApiResponse<ClientsResponse>> => api.get('/clients', { params }),
   
-  getClient: (id: string): Promise<ApiResponse<Client>> => api.get(`/clients/${id}`),
+  getClient: (id: string): Promise<ClientResponse> => api.get(`/clients/${id}`),
   
-  createClient: (data: Partial<Client>): Promise<ApiResponse<Client>> => api.post('/clients', data),
+  createClient: (data: Partial<Client>): Promise<ClientResponse> => api.post('/clients', data),
   
-  updateClient: (id: string, data: Partial<Client>): Promise<ApiResponse<Client>> => api.put(`/clients/${id}`, data),
+  updateClient: (id: string, data: Partial<Client>): Promise<ClientResponse> => api.put(`/clients/${id}`, data),
   
   deleteClient: (id: string): Promise<ApiResponse<void>> => api.delete(`/clients/${id}`),
   
@@ -96,11 +98,11 @@ export const assessmentAPI = {
     sortOrder?: string;
   }): Promise<ApiResponse<AssessmentsResponse>> => api.get('/assessments', { params }),
   
-  getAssessment: (id: string): Promise<ApiResponse<Assessment>> => api.get(`/assessments/${id}`),
+  getAssessment: (id: string): Promise<AssessmentResponse> => api.get(`/assessments/${id}`),
   
-  createAssessment: (data: Partial<Assessment> & { data: AssessmentData }): Promise<ApiResponse<Assessment>> => api.post('/assessments', data),
+  createAssessment: (data: Partial<Assessment> & { data: AssessmentData }): Promise<AssessmentResponse> => api.post('/assessments', data),
   
-  updateAssessment: (id: string, data: Partial<Assessment>): Promise<ApiResponse<Assessment>> => api.put(`/assessments/${id}`, data),
+  updateAssessment: (id: string, data: Partial<Assessment>): Promise<AssessmentResponse> => api.put(`/assessments/${id}`, data),
   
   deleteAssessment: (id: string): Promise<ApiResponse<void>> => api.delete(`/assessments/${id}`),
   

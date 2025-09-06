@@ -37,7 +37,7 @@ const DashboardAssessmentContainer: React.FC<DashboardAssessmentContainerProps> 
     try {
       setIsLoading(true);
       const response = await assessmentAPI.getAssessment(assessmentId);
-      const assessment = response.data.data.assessment;
+      const assessment = response.data.assessment;
       
       // Transform backend data to frontend format
       const transformedData = transformBackendToFrontend(assessment);
@@ -288,7 +288,7 @@ const DashboardAssessmentContainer: React.FC<DashboardAssessmentContainerProps> 
       if (actualMode === 'create' && !createdAssessmentId) {
         // First save - create new assessment
         response = await assessmentAPI.createAssessment(backendData);
-        const newAssessmentId = response.data.data.assessment._id;
+        const newAssessmentId = response.data.assessment._id;
         setCreatedAssessmentId(newAssessmentId);
         setActualMode('edit'); // Switch to edit mode after creation
       } else {
@@ -306,7 +306,7 @@ const DashboardAssessmentContainer: React.FC<DashboardAssessmentContainerProps> 
         }
       }
       
-      return response.data.data.assessment;
+      return response.data.assessment;
     } catch (error: any) {
       console.error('Assessment save error:', error);
       throw new Error('Assessment kaydedilirken hata oluştu.');

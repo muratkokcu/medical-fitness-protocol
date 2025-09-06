@@ -242,11 +242,11 @@ const Dashboard: React.FC = () => {
               stats.recentAssessments.map((assessment) => (
                 <div key={assessment._id} className="recent-item">
                   <div className="item-avatar">
-                    {assessment.client?.fullName?.charAt(0).toUpperCase() || '?'}
+                    {typeof assessment.client === 'object' && assessment.client?.fullName ? assessment.client.fullName.charAt(0).toUpperCase() : '?'}
                   </div>
                   <div className="item-details">
                     <div className="item-title">
-                      {assessment.client?.fullName || 'Bilinmeyen Müşteri'}
+                      {typeof assessment.client === 'object' ? assessment.client?.fullName || 'Bilinmeyen Müşteri' : 'Bilinmeyen Müşteri'}
                     </div>
                     <div className="item-subtitle">
                       Uygulayıcı: {assessment.practitioner?.firstName} {assessment.practitioner?.lastName}

@@ -5,46 +5,9 @@ import { useAuth } from '../contexts/AuthContext';
 import DeleteConfirmationModal from '../components/common/DeleteConfirmationModal';
 import TrashIcon from '../components/icons/TrashIcon';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import type { Client, Assessment } from '../types/assessment';
 import './ClientDetail.css';
 
-interface Client {
-  _id: string;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  dateOfBirth?: string;
-  gender?: string;
-  occupation?: string;
-  company?: string;
-  emergencyContact?: {
-    name: string;
-    phone: string;
-    relationship: string;
-  };
-  medicalHistory?: {
-    allergies: string[];
-    medications: string[];
-    conditions: string[];
-    notes: string;
-  };
-  createdAt: string;
-  totalAssessments: number;
-  lastAssessment?: string;
-  createdBy: {
-    firstName: string;
-    lastName: string;
-  };
-}
-
-interface Assessment {
-  _id: string;
-  assessmentDate: string;
-  status: string;
-  practitioner: {
-    firstName: string;
-    lastName: string;
-  };
-}
 
 const ClientDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,7 +36,7 @@ const ClientDetail: React.FC = () => {
         assessmentAPI.getAssessments({ clientId: id, limit: 20 })
       ]);
 
-      setClient(clientResponse.data.data.client);
+      setClient(clientResponse.data.client);
       setAssessments(assessmentsResponse.data.data.assessments);
     } catch (error: unknown) {
       console.error('Fetch client data error:', error);
@@ -300,7 +263,7 @@ const ClientDetail: React.FC = () => {
               
               <div className="info-item">
                 <label>Ekleyen:</label>
-                <span>{client.createdBy.firstName} {client.createdBy.lastName}</span>
+                <span>{typeof client.createdBy === 'object' ? `${client.createdBy.firstName} ${client.createdBy.lastName}` : 'Belirtilmemiş'}</span>
               </div>
             </div>
           </div>

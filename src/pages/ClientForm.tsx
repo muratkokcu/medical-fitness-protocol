@@ -22,7 +22,7 @@ interface ClientFormProps {
 const ClientForm: React.FC<ClientFormProps> = ({ mode = 'create' }) => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { user } = useAuth();
+  const { } = useAuth();
   
   const [formData, setFormData] = useState<ClientFormData>({
     fullName: '',
@@ -50,7 +50,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ mode = 'create' }) => {
     try {
       setIsLoading(true);
       const response = await clientAPI.getClient(id);
-      const client = response.data.data.client;
+      const client = response.data.client;
       
       setFormData({
         fullName: client.fullName || '',
@@ -115,12 +115,12 @@ const ClientForm: React.FC<ClientFormProps> = ({ mode = 'create' }) => {
 
       const submitData = {
         ...formData,
-        dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth) : undefined
+        dateOfBirth: formData.dateOfBirth ? formData.dateOfBirth : undefined
       };
 
       if (mode === 'create') {
         const response = await clientAPI.createClient(submitData);
-        const newClientId = response.data.data.client._id;
+        const newClientId = response.data.client._id;
         navigate(`/dashboard/clients/${newClientId}`);
       } else if (mode === 'edit' && id) {
         await clientAPI.updateClient(id, submitData);
