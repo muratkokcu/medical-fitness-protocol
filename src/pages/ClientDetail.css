@@ -92,8 +92,47 @@
   font-size: 0.75rem;
 }
 
+.btn-edit {
+  background: #1D1D1F;
+  color: white;
+  border: none;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.btn-edit:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
 .btn-icon {
   font-size: 1rem;
+}
+
+.btn-danger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
 }
 
 /* Client Content Layout */
@@ -118,13 +157,26 @@
   border: 1px solid #e2e8f0;
 }
 
+.info-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
 .info-card h2 {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1e293b;
-  margin: 0 0 1.5rem 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid #e2e8f0;
+  margin: 0;
+}
+
+.registration-date {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .info-grid {
@@ -430,5 +482,16 @@
   .assessment-stats {
     flex-direction: column;
     gap: 0.5rem;
+  }
+  
+  .info-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .registration-date {
+    align-self: flex-end;
+    font-size: 0.75rem;
   }
 }

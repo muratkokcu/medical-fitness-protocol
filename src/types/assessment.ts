@@ -1,4 +1,7 @@
 export interface AssessmentData {
+  // Additional fields
+  clientId?: string;
+  
   // Personal Information
   assessmentDate?: string;
   fullName?: string;
@@ -147,4 +150,96 @@ export interface TestResults {
   walkingFootStrike?: TestResult;
   overheadSquat?: TestResult;
   wallSit?: TestResult;
+}
+
+// API Response types
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+export interface Client {
+  _id: string;
+  fullName: string;
+  email?: string;
+  phone?: string;
+  dateOfBirth?: Date;
+  gender?: 'male' | 'female' | 'other';
+  occupation?: string;
+  company?: string;
+  emergencyContact?: {
+    name: string;
+    phone: string;
+    relationship: string;
+  };
+  medicalHistory?: {
+    allergies: string[];
+    medications: string[];
+    conditions: string[];
+    notes: string;
+  };
+  createdBy: string;
+  isActive: boolean;
+  lastAssessment?: Date;
+  totalAssessments: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Assessment {
+  _id: string;
+  client: Client | string;
+  practitioner: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  assessmentDate: Date;
+  status: 'draft' | 'in_progress' | 'completed' | 'reviewed';
+  data: AssessmentData;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginationData {
+  pages: number;
+  page: number;
+  limit: number;
+  total: number;
+}
+
+export interface ClientsResponse {
+  data: {
+    clients: Client[];
+    pagination: PaginationData;
+  };
+}
+
+export interface AssessmentsResponse {
+  data: {
+    assessments: Assessment[];
+    pagination: PaginationData;
+  };
+}
+
+export interface StatsData {
+  totalClients: number;
+  totalAssessments: number;
+  completedAssessments: number;
+  inProgressAssessments: number;
+}
+
+export interface ClientStatsResponse {
+  data: {
+    stats: StatsData;
+    recentClients: Client[];
+  };
+}
+
+export interface AssessmentStatsResponse {
+  data: {
+    stats: StatsData;
+    recentAssessments: Assessment[];
+  };
 }

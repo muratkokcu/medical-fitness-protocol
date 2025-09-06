@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { clientAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import type { Client } from '../types/assessment';
+import DeleteConfirmationModal from '../components/common/DeleteConfirmationModal';
+import TrashIcon from '../components/icons/TrashIcon';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import './ClientList.css';
 
 // Professional SVG Icon Components
@@ -55,49 +60,50 @@ const BuildingIcon = () => (
   </svg>
 );
 
-interface Client {
-  _id: string;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  gender?: string;
-  occupation?: string;
-  organization: string;
-  createdAt: string;
-  lastAssessment?: string;
-  totalAssessments: number;
-  createdBy: {
-    firstName: string;
-    lastName: string;
-  };
-}
 
 const ClientList: React.FC = () => {
+  const { user } = useAuth();
   const [clients, setClients] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
   const [selectedCompany, setSelectedCompany] = useState('');
-  const [groupByCompany, setGroupByCompany] = useState(false);
   const [companies, setCompanies] = useState<string[]>([]);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
   const limit = 10;
 
+  // Debounce search term
   useEffect(() => {
-    fetchClients();
-  }, [currentPage, searchTerm, sortBy, sortOrder, selectedCompany]);
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
 
-  const fetchClients = async () => {
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  const fetchClients = useCallback(async () => {
     try {
-      setIsLoading(true);
+      // Use different loading states based on context
+      if (isInitialLoad) {
+        setIsLoading(true);
+      } else if (searchTerm !== debouncedSearchTerm) {
+        setIsSearching(true);
+      }
+      
       const response = await clientAPI.getClients({
         page: currentPage,
         limit,
-        search: searchTerm || undefined,
+        search: debouncedSearchTerm || undefined,
         sortBy,
         sortOrder
       });
@@ -107,14 +113,23 @@ const ClientList: React.FC = () => {
       setTotalPages(pagination.pages);
       
       // Extract unique companies for filter dropdown
-      const uniqueCompanies = [...new Set(clientsData.map((client: Client) => client.organization))];
+      const uniqueCompanies = [...new Set(clientsData.map((client: Client) => client.company).filter(Boolean))] as string[];
       setCompanies(uniqueCompanies);
     } catch (error) {
       console.error('Fetch clients error:', error);
     } finally {
-      setIsLoading(false);
+      if (isInitialLoad) {
+        setIsLoading(false);
+        setIsInitialLoad(false);
+      }
+      setIsSearching(false);
     }
-  };
+  }, [currentPage, debouncedSearchTerm, sortBy, sortOrder, isInitialLoad, searchTerm]);
+
+  useEffect(() => {
+    fetchClients();
+  }, [fetchClients]);
+
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
@@ -131,6 +146,32 @@ const ClientList: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleDeleteClient = (clientId: string, clientName: string) => {
+    setClientToDelete({ id: clientId, name: clientName });
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDeleteClient = async () => {
+    if (!clientToDelete) return;
+    
+    try {
+      setIsDeleting(true);
+      await clientAPI.deleteClient(clientToDelete.id);
+      fetchClients(); // Refresh the list
+    } catch (error: any) {
+      console.error('Delete client error:', error);
+      if (error.response?.status === 403) {
+        alert('Bu işlem için yetkiniz bulunmamaktadır. Sadece admin kullanıcılar müşteri silebilir.');
+      } else {
+        alert('Müşteri silinirken bir hata oluştu.');
+      }
+    } finally {
+      setIsDeleting(false);
+      setDeleteModalOpen(false);
+      setClientToDelete(null);
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('tr-TR', {
       year: 'numeric',
@@ -143,26 +184,16 @@ const ClientList: React.FC = () => {
     navigate(`/dashboard/clients/${clientId}`);
   };
 
+
   const handleNewClient = () => {
     navigate('/dashboard/clients/new');
   };
 
   // Filter clients by selected company
   const filteredClients = selectedCompany 
-    ? clients.filter(client => client.organization === selectedCompany)
+    ? clients.filter(client => client.company === selectedCompany)
     : clients;
 
-  // Group clients by company if groupByCompany is true
-  const groupedClients = groupByCompany 
-    ? filteredClients.reduce((groups: { [key: string]: Client[] }, client) => {
-        const company = client.organization;
-        if (!groups[company]) {
-          groups[company] = [];
-        }
-        groups[company].push(client);
-        return groups;
-      }, {})
-    : null;
 
   const renderClientRow = (client: Client) => (
     <tr key={client._id} className="client-row">
@@ -199,7 +230,7 @@ const ClientList: React.FC = () => {
       <td>
         <div className="company-info">
           <div className="detail-item">
-            <BuildingIcon /> {client.organization}
+            <BuildingIcon /> {client.company || 'Belirtilmemiş'}
           </div>
         </div>
       </td>
@@ -241,15 +272,27 @@ const ClientList: React.FC = () => {
           >
             Görüntüle
           </button>
+          {user?.role === 'admin' && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClient(client._id, client.fullName);
+              }}
+              className="btn-danger btn-small"
+              title="Müşteriyi Sil"
+            >
+              <TrashIcon size={14} />
+            </button>
+          )}
         </div>
       </td>
     </tr>
   );
 
-  if (isLoading && currentPage === 1) {
+  if (isLoading && isInitialLoad) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner">Müşteriler yükleniyor...</div>
+        <LoadingSpinner message="Müşteriler yükleniyor..." size="large" />
       </div>
     );
   }
@@ -258,12 +301,14 @@ const ClientList: React.FC = () => {
     <div className="client-list-page">
       <div className="page-header">
         <h1>Müşteri Yönetimi</h1>
-        <button onClick={handleNewClient} className="btn-primary">
-          <span className="btn-icon">
-            <UserPlusIcon />
-          </span>
-          Yeni Müşteri
-        </button>
+        <div className="header-actions">
+          <button onClick={handleNewClient} className="btn-primary">
+            <span className="btn-icon">
+              <UserPlusIcon />
+            </span>
+            Yeni Müşteri
+          </button>
+        </div>
       </div>
 
       <div className="filters-section">
@@ -271,7 +316,7 @@ const ClientList: React.FC = () => {
           <div className="search-box">
             <input
               type="text"
-              placeholder="Müşteri ara (isim, email)..."
+              placeholder="Müşteri ara (isim, email, telefon, şirket)..."
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
               className="search-input"
@@ -295,20 +340,20 @@ const ClientList: React.FC = () => {
               ))}
             </select>
             
-            <label className="group-toggle">
-              <input
-                type="checkbox"
-                checked={groupByCompany}
-                onChange={(e) => setGroupByCompany(e.target.checked)}
-              />
-              <span>Şirkete Göre Grupla</span>
-            </label>
           </div>
         </div>
       </div>
 
       <div className="clients-table-container">
-        <table className="clients-table">
+        {isSearching && (
+          <div className="search-loading-overlay">
+            <div className="search-loading-spinner">
+              <div className="spinner"></div>
+              <span>Aranıyor...</span>
+            </div>
+          </div>
+        )}
+        <table className={`clients-table ${isSearching ? 'searching' : ''}`}>
           <thead>
             <tr>
               <th 
@@ -351,26 +396,7 @@ const ClientList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {groupByCompany && groupedClients ? (
-              // Grouped view by company
-              Object.entries(groupedClients).map(([company, companyClients]) => (
-                <React.Fragment key={company}>
-                  <tr className="company-group-header">
-                    <td colSpan={7} className="company-header">
-                      <div className="company-header-content">
-                        <BuildingIcon />
-                        <strong>{company}</strong>
-                        <span className="company-count">({companyClients.length} çalışan)</span>
-                      </div>
-                    </td>
-                  </tr>
-                  {companyClients.map(renderClientRow)}
-                </React.Fragment>
-              ))
-            ) : (
-              // Regular view
-              filteredClients.map(renderClientRow)
-            )}
+            {filteredClients.map(renderClientRow)}
           </tbody>
         </table>
 
@@ -413,6 +439,19 @@ const ClientList: React.FC = () => {
           </button>
         </div>
       )}
+      
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        title="Müşteriyi Sil"
+        message={`${clientToDelete?.name} adlı müşteriyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve müşteriye ait tüm değerlendirmeler de silinecektir.`}
+        confirmText="Müşteriyi Sil"
+        onConfirm={confirmDeleteClient}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+          setClientToDelete(null);
+        }}
+        isLoading={isDeleting}
+      />
     </div>
   );
 };

@@ -8,7 +8,7 @@ const {
   deleteAssessment,
   getAssessmentStats
 } = require('../controllers/assessmentController');
-const { verifyToken } = require('../middleware/auth');
+const { verifyToken, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -35,6 +35,6 @@ router.get('/stats', getAssessmentStats);
 router.get('/:id', getAssessment);
 router.post('/', assessmentValidation, createAssessment);
 router.put('/:id', updateAssessment);
-router.delete('/:id', deleteAssessment);
+router.delete('/:id', authorize('admin'), deleteAssessment);
 
 module.exports = router;

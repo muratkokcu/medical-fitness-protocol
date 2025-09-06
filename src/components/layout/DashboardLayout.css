@@ -353,7 +353,7 @@
   
   .header-left {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .page-content {

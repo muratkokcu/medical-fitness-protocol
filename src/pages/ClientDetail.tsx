@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { clientAPI, assessmentAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import DeleteConfirmationModal from '../components/common/DeleteConfirmationModal';
+import TrashIcon from '../components/icons/TrashIcon';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import './ClientDetail.css';
 
 interface Client {
@@ -11,6 +15,7 @@ interface Client {
   dateOfBirth?: string;
   gender?: string;
   occupation?: string;
+  company?: string;
   emergencyContact?: {
     name: string;
     phone: string;
@@ -44,10 +49,15 @@ interface Assessment {
 const ClientDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [client, setClient] = useState<Client | null>(null);
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteAssessmentModalOpen, setDeleteAssessmentModalOpen] = useState(false);
+  const [assessmentToDelete, setAssessmentToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -65,7 +75,7 @@ const ClientDetail: React.FC = () => {
 
       setClient(clientResponse.data.data.client);
       setAssessments(assessmentsResponse.data.data.assessments);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Fetch client data error:', error);
       setError('Müşteri bilgileri yüklenirken bir hata oluştu.');
     } finally {
@@ -82,7 +92,67 @@ const ClientDetail: React.FC = () => {
   };
 
   const handleNewAssessment = () => {
-    navigate(`/dashboard/assessments/new?clientId=${id}`);
+    navigate(`/dashboard/clients/${id}/assessment/new`);
+  };
+
+  const handleGenerateReport = (assessmentId: string) => {
+    window.open(`/report/${assessmentId}`, '_blank', 'width=1000,height=800');
+  };
+
+  const handleEditAssessment = (assessmentId: string) => {
+    navigate(`/dashboard/clients/${id}/assessment/${assessmentId}/edit`);
+  };
+
+  const handleDeleteClient = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDeleteClient = async () => {
+    try {
+      setIsDeleting(true);
+      await clientAPI.deleteClient(id!);
+      navigate('/dashboard/clients');
+    } catch (error: any) {
+      console.error('Delete client error:', error);
+      if (error.response?.status === 403) {
+        alert('Bu işlem için yetkiniz bulunmamaktadır. Sadece admin kullanıcılar müşteri silebilir.');
+      } else {
+        alert('Müşteri silinirken bir hata oluştu.');
+      }
+    } finally {
+      setIsDeleting(false);
+      setDeleteModalOpen(false);
+    }
+  };
+
+  const handleDeleteAssessment = (assessmentId: string) => {
+    setAssessmentToDelete(assessmentId);
+    setDeleteAssessmentModalOpen(true);
+  };
+
+  const confirmDeleteAssessment = async () => {
+    if (!assessmentToDelete) return;
+    
+    try {
+      setIsDeleting(true);
+      await assessmentAPI.deleteAssessment(assessmentToDelete);
+      fetchClientData(); // Refresh data
+    } catch (error: any) {
+      console.error('Delete assessment error:', error);
+      if (error.response?.status === 403) {
+        alert('Bu işlem için yetkiniz bulunmamaktadır. Sadece admin kullanıcılar değerlendirme silebilir.');
+      } else {
+        alert('Değerlendirme silinirken bir hata oluştu.');
+      }
+    } finally {
+      setIsDeleting(false);
+      setDeleteAssessmentModalOpen(false);
+      setAssessmentToDelete(null);
+    }
+  };
+
+  const canEditAssessment = (status: string) => {
+    return status === 'draft' || status === 'in_progress';
   };
 
   const formatDate = (dateString: string) => {
@@ -126,7 +196,7 @@ const ClientDetail: React.FC = () => {
   if (isLoading) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner">Müşteri bilgileri yükleniyor...</div>
+        <LoadingSpinner message="Müşteri bilgileri yükleniyor..." size="large" />
       </div>
     );
   }
@@ -154,20 +224,29 @@ const ClientDetail: React.FC = () => {
         </div>
         <div className="header-actions">
           <button onClick={handleEdit} className="btn-secondary">
-            <span className="btn-icon">✏️</span>
             Düzenle
           </button>
           <button onClick={handleNewAssessment} className="btn-primary">
-            <span className="btn-icon">📋</span>
             Yeni Değerlendirme
           </button>
+          {user?.role === 'admin' && (
+            <button onClick={handleDeleteClient} className="btn-danger">
+              <TrashIcon size={16} />
+              Müşteriyi Sil
+            </button>
+          )}
         </div>
       </div>
 
       <div className="client-content">
         <div className="client-info-section">
           <div className="info-card">
-            <h2>Kişisel Bilgiler</h2>
+            <div className="info-card-header">
+              <h2>Kişisel Bilgiler</h2>
+              <div className="registration-date">
+                Kayıt: {formatDate(client.createdAt)}
+              </div>
+            </div>
             <div className="info-grid">
               <div className="info-item">
                 <label>Ad Soyad:</label>
@@ -212,10 +291,12 @@ const ClientDetail: React.FC = () => {
                 </div>
               )}
               
-              <div className="info-item">
-                <label>Kayıt Tarihi:</label>
-                <span>{formatDate(client.createdAt)}</span>
-              </div>
+              {client.company && (
+                <div className="info-item">
+                  <label>Organizasyon/Şirket:</label>
+                  <span>{client.company}</span>
+                </div>
+              )}
               
               <div className="info-item">
                 <label>Ekleyen:</label>
@@ -324,18 +405,44 @@ const ClientDetail: React.FC = () => {
                       </span>
                     </div>
                     <div className="assessment-actions">
+                      {canEditAssessment(assessment.status) && (
+                        <button 
+                          onClick={() => handleEditAssessment(assessment._id)}
+                          className="btn-small btn-edit"
+                          title="Düzenle"
+                        >
+                          Düzenle
+                        </button>
+                      )}
+                      {assessment.status === 'completed' && (
+                        <button 
+                          onClick={() => handleGenerateReport(assessment._id)}
+                          className="btn-small btn-primary"
+                          title="Rapor Oluştur"
+                        >
+                          Rapor
+                        </button>
+                      )}
                       <button 
-                        onClick={() => navigate(`/dashboard/assessments/${assessment._id}`)}
+                        onClick={() => navigate(`/dashboard/clients/${id}/assessment/${assessment._id}`)}
                         className="btn-small btn-secondary"
                       >
                         Görüntüle
                       </button>
+                      {user?.role === 'admin' && (
+                        <button 
+                          onClick={() => handleDeleteAssessment(assessment._id)}
+                          className="btn-small btn-danger"
+                          title="Sil"
+                        >
+                          <TrashIcon size={14} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))
               ) : (
                 <div className="empty-assessments">
-                  <div className="empty-icon">📋</div>
                   <p>Henüz değerlendirme yapılmamış.</p>
                   <button onClick={handleNewAssessment} className="btn-primary">
                     İlk Değerlendirmeyi Başlat
@@ -346,6 +453,29 @@ const ClientDetail: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        title="Müşteriyi Sil"
+        message={`${client?.fullName} adlı müşteriyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve müşteriye ait tüm değerlendirmeler de silinecektir.`}
+        confirmText="Müşteriyi Sil"
+        onConfirm={confirmDeleteClient}
+        onCancel={() => setDeleteModalOpen(false)}
+        isLoading={isDeleting}
+      />
+      
+      <DeleteConfirmationModal
+        isOpen={deleteAssessmentModalOpen}
+        title="Değerlendirmeyi Sil"
+        message="Bu değerlendirmeyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+        confirmText="Değerlendirmeyi Sil"
+        onConfirm={confirmDeleteAssessment}
+        onCancel={() => {
+          setDeleteAssessmentModalOpen(false);
+          setAssessmentToDelete(null);
+        }}
+        isLoading={isDeleting}
+      />
     </div>
   );
 };

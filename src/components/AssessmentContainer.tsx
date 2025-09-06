@@ -4,38 +4,101 @@ import AssessmentCard from './AssessmentCard';
 import NavigationFooter from './NavigationFooter';
 import WelcomeStep from './steps/WelcomeStep';
 import FormStep from './steps/FormStep';
-import SummaryReport from './SummaryReport';
+import AssessmentCompletion from './AssessmentCompletion';
+import SinglePageAssessment from './SinglePageAssessment';
 import { ASSESSMENT_STEPS, TOTAL_STEPS } from '../utils/constants';
-import type { AssessmentData, TestResults, ValidationErrors } from '../types/assessment';
-import { performAllCalculations } from '../utils/calculations';
+import type { AssessmentData, ValidationErrors } from '../types/assessment';
+// import { performAllCalculations } from '../utils/calculations'; // Removed - not needed in new flow
 
-const AssessmentContainer: React.FC = () => {
+interface AssessmentContainerProps {
+  initialData?: AssessmentData;
+  onComplete?: (data: AssessmentData) => void;
+  onSave?: (data: AssessmentData, isCompleted?: boolean) => Promise<any>;
+  onExit?: () => void;
+  isReadOnly?: boolean;
+  useSinglePage?: boolean;
+  mode?: 'create' | 'edit' | 'view';
+}
+
+const AssessmentContainer: React.FC<AssessmentContainerProps> = ({
+  initialData = {},
+  onComplete,
+  onSave,
+  onExit,
+  isReadOnly = false,
+  useSinglePage = true,
+  mode = 'create'
+}) => {
+  // All hooks must be called before any conditional returns
   const [currentStep, setCurrentStep] = useState(0);
-  const [assessmentData, setAssessmentData] = useState<AssessmentData>({});
-  const [testResults, setTestResults] = useState<TestResults>({});
+  const [assessmentData, setAssessmentData] = useState<AssessmentData>(initialData);
+  // const [testResults, setTestResults] = useState<TestResults>({}); // Not needed in new flow
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [isSaving, setIsSaving] = useState(false);
 
   const currentStepData = ASSESSMENT_STEPS[currentStep];
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === TOTAL_STEPS - 1;
 
-  // Load data from localStorage on component mount
+  // Initialize with provided data or load from localStorage
   useEffect(() => {
-    const savedData = localStorage.getItem('medicalFitnessAssessment');
-    if (savedData) {
-      try {
-        const parsed = JSON.parse(savedData);
-        setAssessmentData(parsed);
-      } catch (error) {
-        console.error('Error loading saved data:', error);
+    if (Object.keys(initialData).length > 0) {
+      setAssessmentData(initialData);
+    } else {
+      const savedData = localStorage.getItem('medicalFitnessAssessment');
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          setAssessmentData(parsed);
+        } catch (error) {
+          console.error('Error loading saved data:', error);
+        }
       }
     }
-  }, []);
+  }, [initialData]);
 
-  // Save data to localStorage whenever assessmentData changes
+  // Save data - use API if available, otherwise localStorage
+  // Only enable autosave for edit mode to prevent multiple assessment creation
   useEffect(() => {
-    localStorage.setItem('medicalFitnessAssessment', JSON.stringify(assessmentData));
-  }, [assessmentData]);
+    const saveData = async () => {
+      if (onSave && Object.keys(assessmentData).length > 1) {
+        // Only autosave for edit mode - prevents multiple assessment creation
+        if (mode === 'edit') {
+          try {
+            setIsSaving(true);
+            await onSave(assessmentData, false);
+          } catch (error) {
+            console.error('Auto-save error:', error);
+          } finally {
+            setIsSaving(false);
+          }
+        }
+      } else {
+        // Fallback to localStorage for legacy mode
+        localStorage.setItem('medicalFitnessAssessment', JSON.stringify(assessmentData));
+      }
+    };
+
+    // Debounce auto-save - only runs for edit mode
+    if (mode === 'edit') {
+      const timeoutId = setTimeout(saveData, 2000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [assessmentData, onSave, mode]);
+
+  // If using single page mode, render the new component (after all hooks)
+  if (useSinglePage) {
+    return (
+      <SinglePageAssessment
+        initialData={initialData}
+        onComplete={onComplete}
+        onSave={onSave}
+        onExit={onExit}
+        isReadOnly={isReadOnly}
+        mode={mode}
+      />
+    );
+  }
 
   const updateAssessmentData = (updates: Partial<AssessmentData>) => {
     setAssessmentData(prev => ({ ...prev, ...updates }));
@@ -73,17 +136,20 @@ const AssessmentContainer: React.FC = () => {
   };
 
   const handleNext = () => {
-    if (currentStep === TOTAL_STEPS - 1) return;
+    // Handle completion on last step
+    if (currentStep === TOTAL_STEPS - 1) {
+      if (onComplete) {
+        onComplete(assessmentData);
+      }
+      return;
+    }
     
     if (currentStepData.type === 'form' || currentStepData.type === 'assessment') {
       if (!validateCurrentStep()) return;
     }
     
-    // If moving to summary step, perform calculations
-    if (currentStep === TOTAL_STEPS - 2) {
-      const results = performAllCalculations(assessmentData);
-      setTestResults(results);
-    }
+    // If moving to summary step, we just complete the assessment now
+    // No need for calculations since we removed the summary report
     
     setCurrentStep(prev => Math.min(prev + 1, TOTAL_STEPS - 1));
   };
@@ -110,9 +176,9 @@ const AssessmentContainer: React.FC = () => {
       
       case 'summary':
         return (
-          <SummaryReport 
+          <AssessmentCompletion 
             assessmentData={assessmentData}
-            testResults={testResults}
+            onClose={onExit}
           />
         );
       
@@ -138,6 +204,9 @@ const AssessmentContainer: React.FC = () => {
         onNext={handleNext}
         isFirstStep={isFirstStep}
         isLastStep={isLastStep}
+        onExit={onExit}
+        isReadOnly={isReadOnly}
+        isSaving={isSaving}
       />
     </div>
   );

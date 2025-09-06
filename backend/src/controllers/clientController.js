@@ -7,10 +7,17 @@ const getClients = async (req, res) => {
     const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
     const skip = (page - 1) * limit;
 
-    let query = { organization: req.user.organization, isActive: true };
+    let query = { createdBy: req.user._id };
     
     if (search) {
-      query.$text = { $search: search };
+      // Create flexible regex search for partial matches
+      const searchRegex = new RegExp(search.trim(), 'i'); // Case-insensitive
+      query.$or = [
+        { fullName: { $regex: searchRegex } },
+        { email: { $regex: searchRegex } },
+        { phone: { $regex: searchRegex } },
+        { company: { $regex: searchRegex } }
+      ];
     }
 
     const sort = {};
@@ -49,8 +56,7 @@ const getClient = async (req, res) => {
   try {
     const client = await Client.findOne({
       _id: req.params.id,
-      organization: req.user.organization,
-      isActive: true
+      createdBy: req.user._id
     }).populate('createdBy', 'firstName lastName');
 
     if (!client) {
@@ -97,9 +103,17 @@ const createClient = async (req, res) => {
 
     const clientData = {
       ...req.body,
-      createdBy: req.user._id,
-      organization: req.user.organization
+      createdBy: req.user._id
     };
+
+    console.log('🐛 DEBUG - Client creation data received:', {
+      fullName: req.body.fullName,
+      company: req.body.company,
+      organization: req.body.organization,
+      hasOrganization: req.body.organization ? true : false,
+      hasCompany: req.body.company ? true : false,
+      allFields: Object.keys(req.body)
+    });
 
     const client = new Client(clientData);
     await client.save();
@@ -132,13 +146,16 @@ const updateClient = async (req, res) => {
       });
     }
 
+    const updateData = {
+      ...req.body
+    };
+    
     const client = await Client.findOneAndUpdate(
       { 
         _id: req.params.id,
-        organization: req.user.organization,
-        isActive: true
+        createdBy: req.user._id
       },
-      req.body,
+      updateData,
       { new: true, runValidators: true }
     ).populate('createdBy', 'firstName lastName');
 
@@ -165,15 +182,11 @@ const updateClient = async (req, res) => {
 
 const deleteClient = async (req, res) => {
   try {
-    const client = await Client.findOneAndUpdate(
-      { 
-        _id: req.params.id,
-        organization: req.user.organization,
-        isActive: true
-      },
-      { isActive: false },
-      { new: true }
-    );
+    // First, find the client to ensure it exists and user has permission
+    const client = await Client.findOne({
+      _id: req.params.id,
+      createdBy: req.user._id
+    });
 
     if (!client) {
       return res.status(404).json({
@@ -182,9 +195,15 @@ const deleteClient = async (req, res) => {
       });
     }
 
+    // Delete all assessments for this client (cascade deletion)
+    await Assessment.deleteMany({ client: client._id });
+
+    // Delete the client (hard delete)
+    await Client.findByIdAndDelete(client._id);
+
     res.status(200).json({
       success: true,
-      message: 'Client deleted successfully'
+      message: 'Client and associated assessments deleted successfully'
     });
   } catch (error) {
     console.error('Delete client error:', error);
@@ -198,7 +217,7 @@ const deleteClient = async (req, res) => {
 const getClientStats = async (req, res) => {
   try {
     const stats = await Client.aggregate([
-      { $match: { organization: req.user.organization, isActive: true } },
+      { $match: { createdBy: req.user._id } },
       {
         $group: {
           _id: null,
@@ -212,8 +231,7 @@ const getClientStats = async (req, res) => {
     ]);
 
     const recentClients = await Client.find({
-      organization: req.user.organization,
-      isActive: true
+      createdBy: req.user._id
     })
     .sort({ createdAt: -1 })
     .limit(5)

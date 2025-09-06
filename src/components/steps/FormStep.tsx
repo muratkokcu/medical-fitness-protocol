@@ -1,6 +1,7 @@
 import React from 'react';
 import type { AssessmentStep, AssessmentData, ValidationErrors } from '../../types/assessment';
 import FormField from '../FormField';
+import './FormStep.css';
 
 interface FormStepProps {
   step: AssessmentStep;
@@ -25,13 +26,18 @@ const FormStep: React.FC<FormStepProps> = ({ step, data, onChange, validationErr
       
       <div className="form-row">
         {step.fields?.map(field => (
-          <FormField
-            key={field.id}
-            field={field}
-            value={data[field.id as keyof AssessmentData]}
-            onChange={handleFieldChange}
-            error={validationErrors[field.id]}
-          />
+          <div 
+            key={field.id} 
+            className={`form-field-wrapper ${field.type === 'textarea' ? 'full-width' : ''}`}
+            data-type={field.type}
+          >
+            <FormField
+              field={field}
+              value={data[field.id as keyof AssessmentData]}
+              onChange={handleFieldChange}
+              error={validationErrors[field.id]}
+            />
+          </div>
         ))}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import './AssessmentCard.css';
 
 interface AssessmentCardProps {
   children: React.ReactNode;

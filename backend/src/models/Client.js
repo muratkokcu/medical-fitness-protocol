@@ -34,6 +34,11 @@ const clientSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  company: {
+    type: String,
+    trim: true,
+    required: false
+  },
   emergencyContact: {
     name: String,
     phone: String,
@@ -50,11 +55,6 @@ const clientSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  organization: {
-    type: String,
-    required: true,
-    trim: true
-  },
   isActive: {
     type: Boolean,
     default: true
@@ -67,10 +67,11 @@ const clientSchema = new mongoose.Schema({
     default: 0
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  strict: true
 });
 
 clientSchema.index({ fullName: 'text', email: 'text' });
-clientSchema.index({ organization: 1, createdAt: -1 });
+clientSchema.index({ createdBy: 1, createdAt: -1 });
 
 module.exports = mongoose.model('Client', clientSchema);

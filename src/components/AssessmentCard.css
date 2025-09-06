@@ -1,0 +1,100 @@
+.assessment-card {
+  max-width: 1000px;
+  margin: 0 auto 1rem auto;
+  background: var(--color-background);
+  border-radius: var(--radius-large);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-separator);
+  overflow: hidden;
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+/* Assessment Step Styles */
+.assessment-step {
+  max-width: 100%;
+}
+
+.card-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--color-label);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: var(--color-label-secondary);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.4;
+}
+
+.test-ranges {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-label-secondary);
+  margin-bottom: 1.25rem;
+  background: var(--color-fill-secondary);
+  padding: 0.75rem;
+  border-radius: var(--radius-small);
+  line-height: 1.4;
+}
+
+/* Form Layout */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Full width fields for textareas and special cases */
+.form-row .form-field[data-type="textarea"] {
+  grid-column: 1 / -1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .assessment-card {
+    margin: 0 0.5rem 1rem 0.5rem;
+    border-radius: var(--radius-medium);
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  .card-subtitle {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .assessment-card {
+    margin: 0 0.25rem 1rem 0.25rem;
+  }
+  
+  .card-content {
+    padding: 0.75rem;
+  }
+  
+  .form-row {
+    gap: 0.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+}

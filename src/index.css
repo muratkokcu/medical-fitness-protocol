@@ -170,10 +170,10 @@ body {
 
 label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0.25rem;
   font-weight: 500;
-  font-size: 16px;
-  color: #000000;
+  font-size: 14px;
+  color: var(--color-label);
   letter-spacing: -0.009em;
 }
 
@@ -186,20 +186,23 @@ label {
 
 input, select, textarea {
   width: 100%;
-  padding: 11px 13px;
+  padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-separator);
-  border-radius: var(--radius-medium);
-  font-size: 17px;
+  border-radius: var(--radius-small);
+  font-size: 14px;
   font-weight: 400;
   color: var(--color-label);
   background: var(--color-background);
   transition: all 0.2s ease-out;
+  min-height: 36px;
+  box-sizing: border-box;
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--color-system-blue);
   border-width: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
 }
 
 input:invalid {
@@ -692,9 +695,6 @@ input:valid {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
   
   .assessment-card {
     padding: 20px;

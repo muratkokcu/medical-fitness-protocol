@@ -1,4 +1,5 @@
 import React from 'react';
+import './ProgressHeader.css';
 
 interface ProgressHeaderProps {
   currentStep: number;
@@ -10,8 +11,11 @@ const ProgressHeader: React.FC<ProgressHeaderProps> = ({ currentStep, totalSteps
 
   return (
     <div className="progress-header">
-      <div className="step-counter">
-        Adım {currentStep} / {totalSteps - 1}
+      <div className="progress-info">
+        <h2 className="progress-title">Medikal Fitness Değerlendirmesi</h2>
+        <div className="step-counter">
+          Adım {currentStep} / {totalSteps - 1}
+        </div>
       </div>
       <div className="progress-bar-main">
         <div 

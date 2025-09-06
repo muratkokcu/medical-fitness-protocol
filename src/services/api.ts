@@ -1,4 +1,14 @@
 import axios from 'axios';
+import type { 
+  ApiResponse, 
+  Client, 
+  Assessment, 
+  ClientsResponse, 
+  AssessmentsResponse, 
+  ClientStatsResponse, 
+  AssessmentStatsResponse,
+  AssessmentData
+} from '../types/assessment';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -63,17 +73,17 @@ export const clientAPI = {
     search?: string;
     sortBy?: string;
     sortOrder?: string;
-  }) => api.get('/clients', { params }),
+  }): Promise<ApiResponse<ClientsResponse>> => api.get('/clients', { params }),
   
-  getClient: (id: string) => api.get(`/clients/${id}`),
+  getClient: (id: string): Promise<ApiResponse<Client>> => api.get(`/clients/${id}`),
   
-  createClient: (data: any) => api.post('/clients', data),
+  createClient: (data: Partial<Client>): Promise<ApiResponse<Client>> => api.post('/clients', data),
   
-  updateClient: (id: string, data: any) => api.put(`/clients/${id}`, data),
+  updateClient: (id: string, data: Partial<Client>): Promise<ApiResponse<Client>> => api.put(`/clients/${id}`, data),
   
-  deleteClient: (id: string) => api.delete(`/clients/${id}`),
+  deleteClient: (id: string): Promise<ApiResponse<void>> => api.delete(`/clients/${id}`),
   
-  getClientStats: () => api.get('/clients/stats'),
+  getClientStats: (): Promise<ApiResponse<ClientStatsResponse>> => api.get('/clients/stats'),
 };
 
 export const assessmentAPI = {
@@ -84,17 +94,17 @@ export const assessmentAPI = {
     clientId?: string;
     sortBy?: string;
     sortOrder?: string;
-  }) => api.get('/assessments', { params }),
+  }): Promise<ApiResponse<AssessmentsResponse>> => api.get('/assessments', { params }),
   
-  getAssessment: (id: string) => api.get(`/assessments/${id}`),
+  getAssessment: (id: string): Promise<ApiResponse<Assessment>> => api.get(`/assessments/${id}`),
   
-  createAssessment: (data: any) => api.post('/assessments', data),
+  createAssessment: (data: Partial<Assessment> & { data: AssessmentData }): Promise<ApiResponse<Assessment>> => api.post('/assessments', data),
   
-  updateAssessment: (id: string, data: any) => api.put(`/assessments/${id}`, data),
+  updateAssessment: (id: string, data: Partial<Assessment>): Promise<ApiResponse<Assessment>> => api.put(`/assessments/${id}`, data),
   
-  deleteAssessment: (id: string) => api.delete(`/assessments/${id}`),
+  deleteAssessment: (id: string): Promise<ApiResponse<void>> => api.delete(`/assessments/${id}`),
   
-  getAssessmentStats: () => api.get('/assessments/stats'),
+  getAssessmentStats: (): Promise<ApiResponse<AssessmentStatsResponse>> => api.get('/assessments/stats'),
 };
 
 export default api;

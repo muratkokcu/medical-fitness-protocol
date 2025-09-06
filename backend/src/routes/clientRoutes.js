@@ -8,7 +8,7 @@ const {
   deleteClient,
   getClientStats
 } = require('../controllers/clientController');
-const { verifyToken } = require('../middleware/auth');
+const { verifyToken, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -47,6 +47,6 @@ router.get('/stats', getClientStats);
 router.get('/:id', getClient);
 router.post('/', clientValidation, createClient);
 router.put('/:id', clientValidation, updateClient);
-router.delete('/:id', deleteClient);
+router.delete('/:id', authorize('admin'), deleteClient);
 
 module.exports = router;

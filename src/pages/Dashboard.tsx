@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { clientAPI, assessmentAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import type { Client, Assessment } from '../types/assessment';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import './Dashboard.css';
 
 // Clean SVG Icon Components
@@ -59,12 +62,13 @@ interface DashboardStats {
   totalAssessments: number;
   completedAssessments: number;
   inProgressAssessments: number;
-  recentClients: any[];
-  recentAssessments: any[];
+  recentClients: Client[];
+  recentAssessments: Assessment[];
 }
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats>({
     totalClients: 0,
     totalAssessments: 0,
@@ -107,7 +111,7 @@ const Dashboard: React.FC = () => {
   if (isLoading) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner">Veriler yükleniyor...</div>
+        <LoadingSpinner message="Veriler yükleniyor..." size="large" />
       </div>
     );
   }
@@ -123,8 +127,39 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-page">
       <div className="dashboard-header">
-        <h1>Hoş Geldiniz, {user?.firstName}!</h1>
-        <p>İşte organizasyonunuzun güncel durumu:</p>
+        <div className="header-content">
+          <h1>Hoş Geldiniz, {user?.firstName}!</h1>
+          <p>İşte organizasyonunuzun güncel durumu:</p>
+        </div>
+        <div className="header-actions">
+          <button 
+            onClick={() => navigate('/dashboard/clients/new')}
+            className="action-btn primary"
+          >
+            <span className="action-icon">
+              <UserPlusIcon />
+            </span>
+            Yeni Müşteri
+          </button>
+          <button 
+            onClick={() => navigate('/dashboard/clients')}
+            className="action-btn secondary"
+          >
+            <span className="action-icon">
+              <FileTextIcon />
+            </span>
+            Müşteri Listesi
+          </button>
+          <button 
+            onClick={() => navigate('/dashboard/reports')}
+            className="action-btn tertiary"
+          >
+            <span className="action-icon">
+              <BarChartIcon />
+            </span>
+            Raporlar
+          </button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -238,30 +273,6 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="quick-actions">
-        <h2>Hızlı İşlemler</h2>
-        <div className="action-buttons">
-          <button className="action-btn primary">
-            <span className="action-icon">
-              <UserPlusIcon />
-            </span>
-            Yeni Müşteri Ekle
-          </button>
-          <button className="action-btn secondary">
-            <span className="action-icon">
-              <FileTextIcon />
-            </span>
-            Yeni Değerlendirme
-          </button>
-          <button className="action-btn tertiary">
-            <span className="action-icon">
-              <BarChartIcon />
-            </span>
-            Rapor Oluştur
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

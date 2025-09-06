@@ -90,11 +90,7 @@ const createAssessment = async (req, res) => {
       });
     }
 
-    const client = await Client.findOne({
-      _id: req.body.clientId,
-      organization: req.user.organization,
-      isActive: true
-    });
+    const client = await Client.findById(req.body.clientId);
 
     if (!client) {
       return res.status(404).json({

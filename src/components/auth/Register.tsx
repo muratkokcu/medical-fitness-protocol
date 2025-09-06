@@ -45,11 +45,11 @@ const Register: React.FC = () => {
     }
 
     try {
-      const { confirmPassword, ...registerData } = formData;
+      const { confirmPassword: _confirmPassword, ...registerData } = formData;
       await register(registerData);
       navigate('/dashboard');
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Kayıt başarısız');
     } finally {
       setIsLoading(false);
     }

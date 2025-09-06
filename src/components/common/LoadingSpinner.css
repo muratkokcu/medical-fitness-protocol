@@ -1,0 +1,100 @@
+/* Loading Spinner Component */
+.loading-spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  flex-direction: column;
+}
+
+.loading-spinner-container.small {
+  gap: var(--spacing-2);
+}
+
+.loading-spinner-container.large {
+  gap: var(--spacing-4);
+}
+
+.loading-spinner-icon {
+  border: 3px solid var(--color-fill-secondary);
+  border-radius: 50%;
+  border-top-color: var(--color-system-blue);
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* Size variants */
+.loading-spinner-container.small .loading-spinner-icon {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.loading-spinner-container.medium .loading-spinner-icon {
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+}
+
+.loading-spinner-container.large .loading-spinner-icon {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+.loading-spinner-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-label-secondary);
+  text-align: center;
+}
+
+.loading-spinner-container.small .loading-spinner-text {
+  font-size: 0.875rem;
+}
+
+.loading-spinner-container.large .loading-spinner-text {
+  font-size: 1.125rem;
+}
+
+/* Animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Horizontal variant for inline use */
+.loading-spinner-container.horizontal {
+  flex-direction: row;
+  gap: var(--spacing-3);
+}
+
+.loading-spinner-container.horizontal.small {
+  gap: var(--spacing-2);
+}
+
+.loading-spinner-container.horizontal.large {
+  gap: var(--spacing-4);
+}
+
+/* Center container for full page loading */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .loading-spinner-container.large .loading-spinner-icon {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+  }
+  
+  .loading-spinner-container.large .loading-spinner-text {
+    font-size: 1rem;
+  }
+}
