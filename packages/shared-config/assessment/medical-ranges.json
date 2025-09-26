@@ -1,0 +1,97 @@
+{
+  "blood_pressure": {
+    "normal": { "systolic": 120, "diastolic": 80 },
+    "stage1": { "systolic": 140, "diastolic": 90 },
+    "stage2": { "systolic": 160, "diastolic": 100 },
+    "stage3": { "systolic": 160, "diastolic": 110 }
+  },
+  "heart_rate": {
+    "excellent": { "min": 46, "max": 60 },
+    "good": { "min": 60, "max": 80 },
+    "elevated": { "min": 85, "max": 100 },
+    "high": { "min": 100, "max": 200 }
+  },
+  "body_fat": {
+    "male": {
+      "excellent": { "min": 8, "max": 12 },
+      "good": { "min": 13, "max": 20 },
+      "high": { "min": 20, "max": 50 }
+    },
+    "female": {
+      "excellent": { "min": 14, "max": 20 },
+      "good": { "min": 21, "max": 31 },
+      "high": { "min": 31, "max": 50 }
+    }
+  },
+  "waist_hip_ratio": {
+    "male": {
+      "excellent": { "max": 0.85 },
+      "good": { "min": 0.85, "max": 0.90 },
+      "high": { "min": 0.95 }
+    },
+    "female": {
+      "excellent": { "max": 0.75 },
+      "good": { "min": 0.75, "max": 0.80 },
+      "high": { "min": 0.95 }
+    }
+  },
+  "balance": {
+    "good": { "min": 60 },
+    "normal": { "min": 29, "max": 60 },
+    "poor": { "max": 29 }
+  },
+  "core_strength": {
+    "male": {
+      "good": { "min": 180 },
+      "normal": { "min": 120, "max": 180 },
+      "poor": { "max": 120 }
+    },
+    "female": {
+      "good": { "min": 120 },
+      "normal": { "min": 60, "max": 120 },
+      "poor": { "max": 60 }
+    }
+  },
+  "pushup": {
+    "male": {
+      "good": { "min": 20 },
+      "normal": { "min": 10, "max": 20 },
+      "poor": { "max": 10 }
+    },
+    "female": {
+      "good": { "min": 14 },
+      "normal": { "min": 7, "max": 14 },
+      "poor": { "max": 7 }
+    }
+  },
+  "wall_sit": {
+    "male": {
+      "good": { "min": 120 },
+      "normal": { "min": 60, "max": 120 },
+      "poor": { "max": 60 }
+    },
+    "female": {
+      "good": { "min": 90 },
+      "normal": { "min": 45, "max": 90 },
+      "poor": { "max": 45 }
+    }
+  },
+  "sit_reach": {
+    "male": {
+      "good": { "min": 17 },
+      "normal": { "min": 0, "max": 17 },
+      "poor": { "max": -1 }
+    },
+    "female": {
+      "good": { "min": 21 },
+      "normal": { "min": 1, "max": 21 },
+      "poor": { "max": 0 }
+    }
+  },
+  "bmi": {
+    "underweight": { "max": 18.5 },
+    "normal": { "min": 18.5, "max": 24.9 },
+    "overweight": { "min": 25, "max": 29.9 },
+    "obese": { "min": 30 }
+  }
+}

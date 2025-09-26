@@ -1,0 +1,312 @@
+{
+  "findings": {
+    "blood_pressure": {
+      "ok": [
+        "Blood pressure within normal range. Cardiovascular health is optimal.",
+        "Excellent blood pressure values. Positive indicator for heart health.",
+        "Normal blood pressure. Maintain this level with regular monitoring."
+      ],
+      "warn": [
+        "Blood pressure at borderline levels. Lifestyle modifications recommended.",
+        "Pre-hypertension stage. Salt restriction and exercise needed.",
+        "Blood pressure trending upward. Dietary patterns should be reviewed."
+      ],
+      "risk": [
+        "High blood pressure detected. Medical consultation recommended.",
+        "Hypertension present. Urgent medical evaluation required.",
+        "Critical blood pressure levels. Medication therapy should be considered."
+      ]
+    },
+    "heart_rate": {
+      "ok": [
+        "Resting heart rate in ideal range. Cardiovascular fitness is good.",
+        "Normal heart rate. Aerobic capacity in positive condition.",
+        "Heart rate values healthy. Cardiac rhythm is regular."
+      ],
+      "warn": [
+        "Heart rate slightly elevated. Stress management and cardio exercise recommended.",
+        "Heart rate at borderline values. Caffeine intake should be reduced.",
+        "Tachycardia tendency present. Resting heart rate should be monitored."
+      ],
+      "risk": [
+        "Abnormal heart rate detected. Cardiology consultation required.",
+        "Critical heart rate values. ECG assessment recommended.",
+        "Cardiac arrhythmia risk. Urgent medical evaluation needed."
+      ]
+    },
+    "body_fat": {
+      "ok": [
+        "Body fat percentage in healthy range. Metabolic health is good.",
+        "Optimal fat percentage. Muscle-fat balance is appropriate.",
+        "Body composition at ideal level. Maintain this balance."
+      ],
+      "warn": [
+        "Body fat percentage at borderline levels. Nutrition plan should be reviewed.",
+        "Fat percentage trending upward. Caloric balance needs adjustment.",
+        "Excess fat risk present. Exercise frequency should be increased."
+      ],
+      "risk": [
+        "High body fat percentage. Dietitian support recommended.",
+        "Obesity risk present. Comprehensive lifestyle change required.",
+        "Metabolic syndrome risk. Endocrinology consultation needed."
+      ]
+    },
+    "waist_hip": {
+      "ok": [
+        "Waist-to-hip ratio normal. Central obesity risk is low.",
+        "Healthy body shape. Visceral fat ratio is appropriate.",
+        "Waist circumference in ideal range. Metabolic risk is low."
+      ],
+      "warn": [
+        "Waist-to-hip ratio at borderline. Abdominal exercises recommended.",
+        "Beginning of visceral fat accumulation. Carbohydrate intake should be controlled.",
+        "Central obesity risk increased. Waist circumference should be monitored."
+      ],
+      "risk": [
+        "High waist-to-hip ratio. Diabetes risk present.",
+        "Central obesity detected. Metabolic evaluation required.",
+        "Excess visceral fat. High insulin resistance risk."
+      ]
+    },
+    "bmi": {
+      "ok": [
+        "Body mass index in normal range. Healthy weight.",
+        "Ideal BMI value. Weight-height ratio is balanced.",
+        "Optimal body weight. Maintain this level."
+      ],
+      "warn": [
+        "BMI at borderline values. Weight control recommended.",
+        "Slightly overweight. Portion control should be implemented.",
+        "Obesity risk present. Eating habits should be modified."
+      ],
+      "risk": [
+        "High BMI value. Weight loss program required.",
+        "Obesity detected. Multidisciplinary approach recommended.",
+        "Morbid obesity risk. Bariatric surgery should be evaluated."
+      ]
+    },
+    "balance": {
+      "ok": [
+        "Balance performance excellent. Proprioception in good condition.",
+        "Static balance at optimal level. Fall risk is low.",
+        "Postural control successful. Neuromuscular coordination is good."
+      ],
+      "warn": [
+        "Slight weakness in balance performance. Stabilization exercises recommended.",
+        "Proprioception deficiency present. Balance training required.",
+        "Fall risk increased. Vestibular system should be evaluated."
+      ],
+      "risk": [
+        "Serious balance problem. Physical therapy consultation required.",
+        "High fall risk. Neurological evaluation recommended.",
+        "Postural instability. Vestibular rehabilitation needed."
+      ]
+    },
+    "core_strength": {
+      "ok": [
+        "Core strength excellent. Trunk stability is strong.",
+        "Lumbopelvic stability optimal. Back health is good.",
+        "Abdominal muscles strong. Postural support adequate."
+      ],
+      "warn": [
+        "Core strength at moderate level. Plank exercises should be increased.",
+        "Trunk stability weak. Deep abdominal muscles should be strengthened.",
+        "Lumbopelvic control lacking. Core training required."
+      ],
+      "risk": [
+        "Core strength inadequate. High back pain risk.",
+        "Serious trunk instability. Pilates/physiotherapy recommended.",
+        "Lumbopelvic dysfunction. Spinal evaluation required."
+      ]
+    },
+    "upper_body_strength": {
+      "ok": [
+        "Upper body strength strong. Functional movement capacity is good.",
+        "Pectoral and triceps muscles developed. Adequate for daily activities.",
+        "Push-up performance successful. Upper extremity strength optimal."
+      ],
+      "warn": [
+        "Upper body strength moderate. Resistance exercises should be increased.",
+        "Muscle endurance weak. Strength training required.",
+        "Push-up capacity limited. Progressive loading recommended."
+      ],
+      "risk": [
+        "Upper body strength inadequate. Functional limitation risk.",
+        "Serious muscle weakness. Neurological evaluation recommended.",
+        "Sarcopenia risk present. Protein support and weight training needed."
+      ]
+    },
+    "lower_body_strength": {
+      "ok": [
+        "Lower body strength strong. Quadriceps endurance is good.",
+        "Wall-sit performance successful. Functional mobility adequate.",
+        "Leg muscles developed. Optimal for daily activities."
+      ],
+      "warn": [
+        "Lower body strength moderate. Squat exercises should be increased.",
+        "Quadriceps endurance weak. Strength training required.",
+        "Functional movement limited. Progressive exercise recommended."
+      ],
+      "risk": [
+        "Lower body strength inadequate. High mobility risk.",
+        "Serious muscle atrophy. Rehabilitation program required.",
+        "Sarcopenia findings present. Comprehensive muscle strengthening needed."
+      ]
+    },
+    "breathing": {
+      "ok": [
+        "Breathing pattern normal. Diaphragm function optimal.",
+        "Respiratory control good. No apical breathing.",
+        "Breathing technique correct. Oxygen intake adequate."
+      ],
+      "warn": [
+        "Mild respiratory dysfunction. Breathing exercises recommended.",
+        "Diaphragm activation weak. Deep breathing training required.",
+        "Apical breathing tendency. Breathing pattern should be corrected."
+      ],
+      "risk": [
+        "Serious respiratory dysfunction. Pulmonology consultation needed.",
+        "Suspected diaphragm paralysis. Electrophysiological evaluation required.",
+        "Chronic hyperventilation. Respiratory therapist support needed."
+      ]
+    },
+    "shoulder_mobility": {
+      "ok": [
+        "Shoulder mobility excellent. Joint range of motion complete.",
+        "Glenohumeral joint healthy. Functional movement adequate.",
+        "Shoulder flexibility optimal. Rotator cuff health good."
+      ],
+      "warn": [
+        "Shoulder mobility limited. Stretching exercises recommended.",
+        "Mild joint stiffness. Mobilization techniques required.",
+        "Rotator cuff tightness. Soft tissue work needed."
+      ],
+      "risk": [
+        "Serious shoulder restriction. Physical therapy recommended.",
+        "Frozen shoulder risk. Orthopedic evaluation required.",
+        "Suspected rotator cuff damage. MRI imaging recommended."
+      ]
+    },
+    "trunk_mobility": {
+      "ok": [
+        "Trunk flexibility good. Hamstring muscles optimal.",
+        "Spinal mobility adequate. Lower back health good.",
+        "Sit-reach test successful. Posterior chain flexibility good."
+      ],
+      "warn": [
+        "Trunk flexibility limited. Hamstring stretching exercises needed.",
+        "Spinal mobility decreased. Yoga/pilates recommended.",
+        "Posterior chain tightness. Manual therapy required."
+      ],
+      "risk": [
+        "Serious trunk restriction. Kyphosis risk present.",
+        "Hamstring contracture. Rehabilitation program required.",
+        "Spinal stenosis risk. Neurosurgery evaluation recommended."
+      ]
+    }
+  },
+  "actions": {
+    "cardiovascular": [
+      "Walk briskly for 30 minutes, 3-4 times per week",
+      "Perform 150 minutes of moderate-intensity aerobic activity daily",
+      "High-intensity interval training twice weekly",
+      "Aim for 7000-10000 steps daily",
+      "Start cycling, swimming, or running program",
+      "Increase activities like stair climbing and dancing",
+      "Monitor exercise intensity with heart rate monitor",
+      "Alternative: 75 minutes of vigorous activity weekly"
+    ],
+    "strength": [
+      "Full-body strength training 2-3 times weekly",
+      "Daily 10-minute bodyweight exercises",
+      "Progressive overload principle with weight increases",
+      "Basic movements: push-ups, squats, planks",
+      "Resistance exercises with elastic bands",
+      "Functional movement patterns twice weekly",
+      "Core strengthening: plank, dead bug, bird dog",
+      "Compound movements: deadlift, squat, press"
+    ],
+    "mobility": [
+      "Daily 10-minute dynamic warm-up routine",
+      "5-minute static stretching morning and evening",
+      "Attend yoga or pilates classes",
+      "Myofascial release with foam roller",
+      "Shoulder and hip mobility exercises",
+      "Thoracic spine mobilization techniques",
+      "Hip flexor and hamstring stretching program",
+      "Daily movement breaks: 2-3 minutes every hour"
+    ],
+    "lifestyle": [
+      "Get 7-9 hours of quality sleep daily",
+      "Practice portion control at meals",
+      "Increase water intake to 2-3 liters daily",
+      "Meet daily protein requirements",
+      "Reduce refined sugars and processed foods",
+      "Stress management: meditation, breathing exercises",
+      "Limit alcohol consumption",
+      "Quit smoking"
+    ],
+    "medical": [
+      "Annual comprehensive health check-up",
+      "Blood tests: lipid panel, HbA1c, CRP",
+      "Cardiology follow-up recommended",
+      "Endocrinology consultation",
+      "Physical therapy evaluation",
+      "Consultation with nutritionist",
+      "Psychiatrist/psychologist support",
+      "Sleep clinic evaluation"
+    ],
+    "breathing": [
+      "Daily 10-minute diaphragmatic breathing",
+      "4-7-8 breathing technique for stress",
+      "Box breathing: 4-4-4-4 rhythm",
+      "Learn pranayama techniques",
+      "Respiratory muscle strengthening",
+      "Posture correction exercises",
+      "Inspiratory muscle training device",
+      "Buteyko breathing technique training"
+    ]
+  },
+  "priority_interventions": {
+    "critical": [
+      "Urgent medical evaluation required",
+      "Consult physician immediately",
+      "Priority cardiology consultation",
+      "Urgent hypertension treatment",
+      "ECG and echocardiography needed",
+      "Neurological examination required",
+      "Urgent endocrinology referral",
+      "Pulmonology consultation"
+    ],
+    "important": [
+      "Physician consultation within 2 weeks",
+      "Schedule nutritionist appointment",
+      "Start physical therapy program",
+      "Consult exercise physiologist",
+      "Sleep clinic evaluation",
+      "Stress management counseling",
+      "Posture analysis and correction",
+      "Ergonomic assessment"
+    ],
+    "preventive": [
+      "Implement lifestyle modifications",
+      "Start regular exercise program",
+      "Review dietary habits",
+      "Weight management program",
+      "Smoking cessation support",
+      "Reduce alcohol consumption",
+      "Learn stress reduction techniques",
+      "Apply sleep hygiene rules"
+    ],
+    "optimization": [
+      "Performance enhancement program",
+      "Advanced strength training",
+      "Sport-specific conditioning",
+      "Nutrition optimization",
+      "Recovery protocols",
+      "Mental performance coaching",
+      "Biomechanical analysis",
+      "Functional movement screening"
+    ]
+  }
+}

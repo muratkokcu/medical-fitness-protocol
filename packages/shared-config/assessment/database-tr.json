@@ -1,0 +1,312 @@
+{
+  "findings": {
+    "blood_pressure": {
+      "ok": [
+        "Kan basıncı normal aralıkta. Kardiyovasküler sağlık iyi durumda.",
+        "Optimal tansiyon değerleri. Kalp sağlığı için olumlu gösterge.",
+        "Normal kan basıncı. Düzenli takip ile bu seviyeyi koruyun."
+      ],
+      "warn": [
+        "Kan basıncı sınır değerlerde. Yaşam tarzı değişiklikleri önerilir.",
+        "Pre-hipertansiyon aşaması. Tuz kısıtlaması ve egzersiz gerekli.",
+        "Tansiyon yükselme eğiliminde. Beslenme düzeni gözden geçirilmeli."
+      ],
+      "risk": [
+        "Yüksek tansiyon tespit edildi. Hekime başvuru önerilir.",
+        "Hipertansiyon mevcut. Acil tıbbi değerlendirme gerekli.",
+        "Kritik kan basıncı seviyesi. İlaç tedavisi değerlendirilmeli."
+      ]
+    },
+    "heart_rate": {
+      "ok": [
+        "Dinlenik nabız ideal aralıkta. Kardiyovasküler fitness iyi.",
+        "Normal kalp hızı. Aerobik kapasite olumlu durumda.",
+        "Nabız değerleri sağlıklı. Kalp ritmi düzenli."
+      ],
+      "warn": [
+        "Nabız hafif yüksek. Stres yönetimi ve kardiyo egzersizi önerilir.",
+        "Kalp hızı sınır değerlerde. Kafein tüketimi azaltılmalı.",
+        "Taşikardi eğilimi mevcut. Dinlenme kalp hızı takip edilmeli."
+      ],
+      "risk": [
+        "Anormal kalp hızı tespit edildi. Kardiyoloji konsültasyonu gerekli.",
+        "Kritik nabız değerleri. EKG çekilmesi önerilir.",
+        "Kardiyak aritmi riski. Acil tıbbi değerlendirme yapılmalı."
+      ]
+    },
+    "body_fat": {
+      "ok": [
+        "Vücut yağ oranı sağlıklı aralıkta. Metabolik sağlık iyi.",
+        "Optimal yağ yüzdesi. Kas-yağ dengesi uygun.",
+        "Vücut kompozisyonu ideal seviyede. Bu dengeyi koruyun."
+      ],
+      "warn": [
+        "Vücut yağ oranı sınır değerlerde. Beslenme planı gözden geçirilmeli.",
+        "Yağ yüzdesi yükselme eğiliminde. Kalori dengesi ayarlanmalı.",
+        "Aşırı yağlanma riski mevcut. Egzersiz sıklığı artırılmalı."
+      ],
+      "risk": [
+        "Vücut yağ oranı yüksek. Diyetisyen desteği önerilir.",
+        "Obezite riski mevcut. Kapsamlı yaşam tarzı değişimi gerekli.",
+        "Metabolik sendrom riski. Endokrinoloji konsültasyonu yapılmalı."
+      ]
+    },
+    "waist_hip": {
+      "ok": [
+        "Bel/kalça oranı normal. Santral obezite riski düşük.",
+        "Sağlıklı vücut şekli. Viseral yağ oranı uygun.",
+        "Bel çevresi ideal aralıkta. Metabolik risk düşük."
+      ],
+      "warn": [
+        "Bel/kalça oranı sınırda. Karın bölgesi egzersizleri önerilir.",
+        "Viseral yağlanma başlangıcı. Karbonhidrat alımı kontrol edilmeli.",
+        "Santral obezite riski artmış. Bel çevresi takip edilmeli."
+      ],
+      "risk": [
+        "Yüksek bel/kalça oranı. Diyabet riski mevcut.",
+        "Santral obezite tespit edildi. Metabolik değerlendirme gerekli.",
+        "Viseral yağ fazlalığı. İnsülin direnci riski yüksek."
+      ]
+    },
+    "bmi": {
+      "ok": [
+        "Beden kitle indeksi normal aralıkta. Sağlıklı kilo.",
+        "İdeal BMI değeri. Kilo-boy oranı dengeli.",
+        "Optimal vücut ağırlığı. Bu seviyeyi koruyun."
+      ],
+      "warn": [
+        "BMI sınır değerlerde. Kilo kontrolü önerilir.",
+        "Hafif fazla kilolu. Porsiyon kontrolü yapılmalı.",
+        "Obezite riski mevcut. Beslenme alışkanlıkları değiştirilmeli."
+      ],
+      "risk": [
+        "Yüksek BMI değeri. Kilo verme programı gerekli.",
+        "Obezite tespit edildi. Multidisipliner yaklaşım önerilir.",
+        "Morbid obezite riski. Bariatrik cerrahi değerlendirilmeli."
+      ]
+    },
+    "balance": {
+      "ok": [
+        "Denge performansı mükemmel. Propriosepsiyon iyi durumda.",
+        "Statik denge optimal seviyede. Düşme riski düşük.",
+        "Postürel kontrol başarılı. Nöromüsküler koordinasyon iyi."
+      ],
+      "warn": [
+        "Denge performansında hafif zayıflık. Stabilizasyon egzersizleri önerilir.",
+        "Propriosepsiyon eksikliği mevcut. Denge antrenmanı gerekli.",
+        "Düşme riski artmış. Vestibuler sistem değerlendirilmeli."
+      ],
+      "risk": [
+        "Ciddi denge problemi. Fizik tedavi konsültasyonu gerekli.",
+        "Yüksek düşme riski. Nörolojik değerlendirme önerilir.",
+        "Postürel instabilite. Vestibuler rehabilitasyon gerekli."
+      ]
+    },
+    "core_strength": {
+      "ok": [
+        "Core kuvvet mükemmel. Gövde stabilitesi güçlü.",
+        "Lumbopelvik stabilite optimal. Bel sağlığı iyi.",
+        "Karın kasları güçlü. Postürel destek yeterli."
+      ],
+      "warn": [
+        "Core kuvvet orta seviyede. Plank egzersizleri artırılmalı.",
+        "Gövde stabilitesi zayıf. Derin karın kasları güçlendirilmeli.",
+        "Lumbopelvik kontrol eksik. Core antrenmanı gerekli."
+      ],
+      "risk": [
+        "Core kuvvet yetersiz. Bel ağrısı riski yüksek.",
+        "Ciddi gövde instabilitesi. Pilates/fisyoterapi önerilir.",
+        "Lumbopelvik disfonksiyon. Spinal değerlendirme gerekli."
+      ]
+    },
+    "upper_body_strength": {
+      "ok": [
+        "Üst vücut kuvveti güçlü. Fonksiyonel hareket kapasitesi iyi.",
+        "Pektoral ve triceps kasları gelişmiş. Günlük aktiviteler için yeterli.",
+        "Push-up performansı başarılı. Üst ekstremite kuvveti optimal."
+      ],
+      "warn": [
+        "Üst vücut kuvveti orta. Direnç egzersizleri artırılmalı.",
+        "Kas dayanıklılığı zayıf. Kuvvet antrenmanı gerekli.",
+        "Push-up kapasitesi sınırlı. Progresif yüklenme önerilir."
+      ],
+      "risk": [
+        "Üst vücut kuvveti yetersiz. Fonksiyonel limitasyon riski.",
+        "Ciddi kas zayıflığı. Nörolojik değerlendirme önerilir.",
+        "Sarcopenia riski mevcut. Protein desteği ve ağırlık antrenmanı."
+      ]
+    },
+    "lower_body_strength": {
+      "ok": [
+        "Alt vücut kuvveti güçlü. Quadriceps dayanıklılığı iyi.",
+        "Wall-sit performansı başarılı. Fonksiyonel mobilite yeterli.",
+        "Bacak kasları gelişmiş. Günlük aktiviteler için optimal."
+      ],
+      "warn": [
+        "Alt vücut kuvveti orta. Squat egzersizleri artırılmalı.",
+        "Quadriceps dayanıklılığı zayıf. Kuvvet antrenmanı gerekli.",
+        "Funktional hareket sınırlı. Progresif egzersiz önerilir."
+      ],
+      "risk": [
+        "Alt vücut kuvveti yetersiz. Mobilite riski yüksek.",
+        "Ciddi kas atrofisi. Rehabilitasyon programı gerekli.",
+        "Sarcopenia bulgularımevcut. Kapsamlı kas güçlendirme."
+      ]
+    },
+    "breathing": {
+      "ok": [
+        "Solunum paterni normal. Diyafram fonksiyonu optimal.",
+        "Respiratuar kontrol iyi. Apikal solunum yok.",
+        "Nefes alma tekniği doğru. Oksijen alımı yeterli."
+      ],
+      "warn": [
+        "Hafif solunum disfonksiyonu. Nefes egzersizleri önerilir.",
+        "Diyafram aktivasyonu zayıf. Derin nefes antrenmanı gerekli.",
+        "Apikal solunum eğilimi. Solunum paterni düzeltilmeli."
+      ],
+      "risk": [
+        "Ciddi solunum disfonksiyonu. Pulmonoloji konsültasyonu.",
+        "Diyafram paralizisi şüphesi. Elektrofizyolojik değerlendirme.",
+        "Kronik hiperventilasyon. Solunum terapisti desteği gerekli."
+      ]
+    },
+    "shoulder_mobility": {
+      "ok": [
+        "Omuz mobilitesi mükemmel. Eklem hareket açıklığı tam.",
+        "Glenohumeral eklemi sağlıklı. Functional hareket yeterli.",
+        "Omuz esnekliği optimal. Rotator cuff sağlığı iyi."
+      ],
+      "warn": [
+        "Omuz mobilitesi sınırlı. Germe egzersizleri önerilir.",
+        "Hafif eklem sertliği. Mobilizasyon teknikleri gerekli.",
+        "Rotator cuff gerginliği. Yumuşak doku çalışması yapılmalı."
+      ],
+      "risk": [
+        "Ciddi omuz kısıtlılığı. Fizik tedavi önerilir.",
+        "Frozen shoulder riski. Ortopedik değerlendirme gerekli.",
+        "Rotator cuff hasarı şüphesi. MR görüntüleme önerilir."
+      ]
+    },
+    "trunk_mobility": {
+      "ok": [
+        "Gövde esnekliği iyi. Hamstring kasları optimal.",
+        "Spinal mobilite yeterli. Lower back sağlığı iyi.",
+        "Sit-reach testi başarılı. Posterior chain esnekliği."
+      ],
+      "warn": [
+        "Gövde esnekliği sınırlı. Hamstring germe egzersizleri.",
+        "Spinal mobilite azalmış. Yoga/pilates önerilir.",
+        "Posterior chain gerginliği. Manuel terapi gerekli."
+      ],
+      "risk": [
+        "Ciddi gövde kısıtlılığı. Kifoz riski mevcut.",
+        "Hamstring kontraktürü. Rehabilitasyon programı gerekli.",
+        "Spinal stenoz riski. Nöroşirurji değerlendirmesi önerilir."
+      ]
+    }
+  },
+  "actions": {
+    "cardiovascular": [
+      "Haftada 3-4 kez 30 dakika tempolu yürüyüş",
+      "Günde 150 dakika orta yoğunlukta aerobik aktivite",
+      "Haftada 2 kez yüksek yoğunlukta interval antrenmanı",
+      "Günlük 7000-10000 adım hedefi",
+      "Bisiklet, yüzme veya koşu programı başlatın",
+      "Merdiven çıkma, dans gibi aktiviteleri artırın",
+      "Kalp hızı monitörü ile egzersiz yoğunluğunu takip edin",
+      "Haftada 75 dakika vigorous aktivite alternatifi"
+    ],
+    "strength": [
+      "Haftada 2-3 kez tüm vücut kuvvet antrenmanı",
+      "Günlük 10 dakika bodyweight egzersizleri",
+      "Progressive overload prensibi ile ağırlık artışı",
+      "Push-up, squat, plank gibi temel hareketler",
+      "Elastik band ile direnç egzersizleri",
+      "Haftada 2 kez functional movement patterns",
+      "Core kuvvetlendirme: plank, dead bug, bird dog",
+      "Compound movements: deadlift, squat, press"
+    ],
+    "mobility": [
+      "Günlük 10 dakika dinamik ısınma rutini",
+      "Sabah-akşam 5 dakika statik germe",
+      "Yoga veya pilates sınıfına katılım",
+      "Foam roller ile miyofasyal gevşeme",
+      "Omuz ve kalça mobilite egzersizleri",
+      "Thoracic spine mobilizasyon teknikleri",
+      "Hip flexor ve hamstring germe programı",
+      "Daily movement breaks: her saatte 2-3 dakika"
+    ],
+    "lifestyle": [
+      "Günde 7-9 saat kaliteli uyku",
+      "Öğünlerde porsiyon kontrolü uygulayın",
+      "Su tüketimini günde 2-3 litre artırın",
+      "Günlük protein ihtiyacını karşılayın",
+      "Refined şeker ve işlenmiş gıdaları azaltın",
+      "Stres yönetimi: meditasyon, nefes egzersizleri",
+      "Alkol tüketimini sınırlayın",
+      "Sigara kullanımını bırakın"
+    ],
+    "medical": [
+      "Yıllık genel sağlık check-up",
+      "Kan tahlili: lipid panel, HbA1c, CRP",
+      "Kardiyoloji kontrolü önerilir",
+      "Endokrinoloji konsültasyonu",
+      "Fizik tedavi değerlendirmesi",
+      "Beslenme uzmanı ile görüşme",
+      "Psikiyatrist/psikolog desteği",
+      "Uyku polikliniği değerlendirmesi"
+    ],
+    "breathing": [
+      "Günlük 10 dakika diyafragmatik nefes",
+      "4-7-8 nefes tekniği stres için",
+      "Box breathing: 4-4-4-4 ritmi",
+      "Pranayama teknikleri öğrenin",
+      "Solunum kasları güçlendirme",
+      "Postür düzeltme egzersizleri",
+      "Inspiratory muscle training cihazı",
+      "Buteyko nefes tekniği antrenmanı"
+    ]
+  },
+  "priority_interventions": {
+    "critical": [
+      "Acil tıbbi değerlendirme gerekli",
+      "Hekime hemen başvurun",
+      "Kardiyoloji konsültasyonu öncelikli",
+      "Hipertansiyon tedavisi acil",
+      "EKG ve ekokardiyografi çekilmeli",
+      "Nörolojik muayene gerekli",
+      "Endokrinoloji acil sevk",
+      "Pulmonoloji konsültasyonu"
+    ],
+    "important": [
+      "2 hafta içinde hekime başvuru",
+      "Beslenme uzmanı randevusu alın",
+      "Fizik tedavi programı başlatın",
+      "Egzersiz fizyologu ile görüşün",
+      "Uyku polikliniği değerlendirmesi",
+      "Stres yönetimi danışmanlığı",
+      "Postür analizi ve düzeltme",
+      "Ergonomi değerlendirmesi"
+    ],
+    "preventive": [
+      "Yaşam tarzı değişiklikleri uygulayın",
+      "Düzenli egzersiz programı başlatın",
+      "Beslenme alışkanlıklarını gözden geçirin",
+      "Kilo yönetimi programı",
+      "Sigara bırakma desteği alın",
+      "Alkol tüketimini azaltın",
+      "Stres azaltma teknikleri öğrenin",
+      "Uyku hijyeni kurallarını uygulayın"
+    ],
+    "optimization": [
+      "Performance enhancement programı",
+      "İleri seviye kuvvet antrenmanı",
+      "Spor-spesifik kondisyon",
+      "Beslenme optimizasyonu",
+      "Recovery protokolleri",
+      "Mental performance koçluğu",
+      "Biomechanical analiz",
+      "Functional movement screening"
+    ]
+  }
+}

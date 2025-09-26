@@ -1,0 +1,10 @@
+{
+  "name": "@medical-fitness/shared-config",
+  "version": "1.0.0",
+  "description": "Shared configuration for Medical Fitness Platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'No build step needed'"
+  },
+  "license": "MIT"
+}

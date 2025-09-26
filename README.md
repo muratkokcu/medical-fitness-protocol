@@ -1,8 +1,173 @@
-# Medical Fitness Dashboard
+# Medical Fitness Platform
 
-Medikal fitness değerlendirmeleri için B2B dashboard uygulaması. Bu uygulama, fitness uzmanlarının müşterilerine comprehensive health assessments yapabilmesini ve sonuçları yönetebilmesini sağlar.
+Medical Fitness Assessment Platform built as a monorepo with modern architecture.
 
-## 🚀 Özellikler
+## 🏗 Architecture
+
+- **Frontend (React SPA)** – `apps/web`
+  - React + Vite + React Router
+  - Dashboard, patient forms (/t/:token), report pages
+  - Auth: JWT cookie or session cookie
+- **Backend (Node API)** – `apps/api`
+  - Express-based REST API
+  - Invitation token generation/consumption, form submission
+- **Database** – MongoDB Atlas
+  - `tenants`, `users`, `invitations`, `submissions`, `auditLogs`
+- **Shared Packages** – `packages/`
+  - Types and configuration shared across apps
+
+## 📂 Directory Structure
+
+```
+medical-fitness-platform/
+├─ apps/
+│  ├─ web/                    # React (Vite) SPA
+│  │  ├─ src/
+│  │  │  ├─ pages/
+│  │  │  │  ├─ Auth/
+│  │  │  │  ├─ Dashboard/
+│  │  │  │  ├─ TokenForm/     # /t/:token
+│  │  │  │  └─ Report/        # /report/:id
+│  │  │  ├─ services/http.ts  # API client
+│  │  │  ├─ contexts/auth.tsx # auth state
+│  │  │  └─ utils/...
+│  └─ api/                    # Node backend
+│     ├─ src/
+│     │  ├─ routes/
+│     │  │  ├─ auth.js        # login/logout/me
+│     │  │  ├─ clients.js     # client management
+│     │  │  ├─ invitations.js # invitation tokens
+│     │  │  ├─ forms.js       # patient forms
+│     │  │  └─ reports.js     # PDF reports
+│     │  ├─ core/
+│     │  │  ├─ tokens.js      # token generation/validation
+│     │  │  ├─ derive.js      # score/recommendation calculation
+│     │  │  ├─ pdf.js         # PDF generation helper
+│     │  │  └─ rbac.js        # role-based access control
+│     │  ├─ db/mongo.js       # MongoDB connection
+│     │  └─ middleware/...
+├─ packages/
+│  ├─ shared-types/           # Shared TypeScript types
+│  └─ shared-config/          # Shared configuration
+└─ package.json               # Workspace configuration
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js >= 18.0.0
+- npm >= 9.0.0
+- MongoDB Atlas account
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd medical-fitness-platform
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+```bash
+# Copy environment files
+cp .env.example .env
+cp apps/api/.env.example apps/api/.env
+
+# Configure your MongoDB URI and other settings
+```
+
+4. Start development servers:
+```bash
+# Start both frontend and backend
+npm run dev:all
+
+# Or start individually
+npm run dev       # Frontend only
+npm run dev:api   # Backend only
+```
+
+## 📜 Available Scripts
+
+### Root level
+- `npm run dev` - Start frontend development server
+- `npm run dev:api` - Start backend development server
+- `npm run dev:all` - Start both frontend and backend
+- `npm run build` - Build all workspaces
+- `npm run build:web` - Build frontend only
+- `npm run build:api` - Build backend only
+- `npm run lint` - Lint all workspaces
+- `npm run clean` - Clean all dist and node_modules
+
+### Web app (apps/web)
+- `npm run dev --workspace=@medical-fitness/web` - Start dev server
+- `npm run build --workspace=@medical-fitness/web` - Build for production
+- `npm run lint --workspace=@medical-fitness/web` - Lint code
+
+### API (apps/api)
+- `npm run dev --workspace=@medical-fitness/api` - Start with nodemon
+- `npm run start --workspace=@medical-fitness/api` - Start production server
+- `npm run seed --workspace=@medical-fitness/api` - Seed database
+
+## 🛠 Technology Stack
+
+### Frontend
+- **React 19** - UI framework
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+- **TypeScript** - Type safety
+
+### Backend
+- **Node.js** - Runtime
+- **Express** - Web framework
+- **MongoDB** - Database
+- **Mongoose** - ODM
+- **JWT** - Authentication
+- **Helmet** - Security middleware
+
+### Development
+- **npm Workspaces** - Monorepo management
+- **ESLint** - Code linting
+- **TypeScript** - Type checking
+- **Concurrently** - Running multiple scripts
+
+## 🔧 Configuration
+
+### Environment Variables
+
+#### Root (.env)
+```
+NODE_ENV=development
+```
+
+#### API (apps/api/.env)
+```
+PORT=5000
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=your-secret-key
+CORS_ORIGIN=http://localhost:5173
+```
+
+#### Web (apps/web/.env)
+```
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+## 🚢 Deployment
+
+### Frontend (Vercel)
+The frontend is configured for deployment on Vercel. The `vercel.json` configuration handles routing and API proxying.
+
+### Backend (Railway/Heroku)
+The backend can be deployed on any Node.js hosting platform. Ensure environment variables are properly configured.
+
+## 📁 Key Features
 
 ### ✅ Tamamlanan Özellikler
 
